@@ -7,7 +7,31 @@ package service;
 service LoyaltyService{
   rpc AddNewPromoCode (AddNewPromoCodeRequest) returns (AddNewPromoCodeResponse);
   rpc DeletePromoCode (DeletePromoCodeRequest) returns (DeletePromoCodeResponse);
+  rpc ChangeNamePromoCode (ChangeNamePromoCodeRequest) returns (ChangeNamePromoCodeResponse);
+  rpc ChangeTypeDiscountPromoCode (ChangeTypeDiscountPromoCodeRequest) returns (ChangeTypeDiscountPromoCodeResponse);
+  rpc ChangeValueDiscountPromoCode (ChangeValueDiscountPromoCodeRequest) returns (ChangeValueDiscountPromoCodeResponse);
+  rpc ChangeDateStartActivePromoCode (ChangeDateStartActivePromoCodeRequest) returns (ChangeDateStartActivePromoCodeResponse);
+  rpc ChangeDateFinishActivePromoCode (ChangeDateFinishActivePromoCodeRequest) returns (ChangeDateFinishActivePromoCodeResponse);
+  rpc ChangeMaxCountUsesPromoCode (ChangeMaxCountUsesPromoCodeRequest) returns (ChangeMaxCountUsesPromoCodeResponse);
 }
+message ChangeNamePromoCodeRequest{ string name = 1;}
+message ChangeNamePromoCodeResponse {string  result = 1;}
+
+message ChangeTypeDiscountPromoCodeRequest{ string typeDiscount = 1;}
+message ChangeTypeDiscountPromoCodeResponse {string  result = 1;}
+
+message ChangeValueDiscountPromoCodeRequest{ string valueDiscount = 1;}
+message ChangeValueDiscountPromoCodeResponse {string  result = 1;}
+
+message ChangeDateStartActivePromoCodeRequest{ string dateStartActive = 1;}
+message ChangeDateStartActivePromoCodeResponse {string  result = 1;}
+
+message ChangeDateFinishActivePromoCodeRequest{ string dateFinishActive = 1;}
+message ChangeDateFinishActivePromoCodeResponse {string  result = 1;}
+
+message ChangeMaxCountUsesPromoCodeRequest{ string maxCountUses = 1;}
+message ChangeMaxCountUsesPromoCodeResponse {string  result = 1;}
+
 message DeletePromoCodeRequest{
   string name = 1;
 }

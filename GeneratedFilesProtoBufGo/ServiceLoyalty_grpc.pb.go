@@ -24,6 +24,12 @@ const _ = grpc.SupportPackageIsVersion7
 type LoyaltyServiceClient interface {
 	AddNewPromoCode(ctx context.Context, in *AddNewPromoCodeRequest, opts ...grpc.CallOption) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(ctx context.Context, in *DeletePromoCodeRequest, opts ...grpc.CallOption) (*DeletePromoCodeResponse, error)
+	ChangeNamePromoCode(ctx context.Context, in *ChangeNamePromoCodeRequest, opts ...grpc.CallOption) (*ChangeNamePromoCodeResponse, error)
+	ChangeTypeDiscountPromoCode(ctx context.Context, in *ChangeTypeDiscountPromoCodeRequest, opts ...grpc.CallOption) (*ChangeTypeDiscountPromoCodeResponse, error)
+	ChangeValueDiscountPromoCode(ctx context.Context, in *ChangeValueDiscountPromoCodeRequest, opts ...grpc.CallOption) (*ChangeValueDiscountPromoCodeResponse, error)
+	ChangeDateStartActivePromoCode(ctx context.Context, in *ChangeDateStartActivePromoCodeRequest, opts ...grpc.CallOption) (*ChangeDateStartActivePromoCodeResponse, error)
+	ChangeDateFinishActivePromoCode(ctx context.Context, in *ChangeDateFinishActivePromoCodeRequest, opts ...grpc.CallOption) (*ChangeDateFinishActivePromoCodeResponse, error)
+	ChangeMaxCountUsesPromoCode(ctx context.Context, in *ChangeMaxCountUsesPromoCodeRequest, opts ...grpc.CallOption) (*ChangeMaxCountUsesPromoCodeResponse, error)
 }
 
 type loyaltyServiceClient struct {
@@ -52,12 +58,72 @@ func (c *loyaltyServiceClient) DeletePromoCode(ctx context.Context, in *DeletePr
 	return out, nil
 }
 
+func (c *loyaltyServiceClient) ChangeNamePromoCode(ctx context.Context, in *ChangeNamePromoCodeRequest, opts ...grpc.CallOption) (*ChangeNamePromoCodeResponse, error) {
+	out := new(ChangeNamePromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeNamePromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) ChangeTypeDiscountPromoCode(ctx context.Context, in *ChangeTypeDiscountPromoCodeRequest, opts ...grpc.CallOption) (*ChangeTypeDiscountPromoCodeResponse, error) {
+	out := new(ChangeTypeDiscountPromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeTypeDiscountPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) ChangeValueDiscountPromoCode(ctx context.Context, in *ChangeValueDiscountPromoCodeRequest, opts ...grpc.CallOption) (*ChangeValueDiscountPromoCodeResponse, error) {
+	out := new(ChangeValueDiscountPromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeValueDiscountPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) ChangeDateStartActivePromoCode(ctx context.Context, in *ChangeDateStartActivePromoCodeRequest, opts ...grpc.CallOption) (*ChangeDateStartActivePromoCodeResponse, error) {
+	out := new(ChangeDateStartActivePromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeDateStartActivePromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) ChangeDateFinishActivePromoCode(ctx context.Context, in *ChangeDateFinishActivePromoCodeRequest, opts ...grpc.CallOption) (*ChangeDateFinishActivePromoCodeResponse, error) {
+	out := new(ChangeDateFinishActivePromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeDateFinishActivePromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) ChangeMaxCountUsesPromoCode(ctx context.Context, in *ChangeMaxCountUsesPromoCodeRequest, opts ...grpc.CallOption) (*ChangeMaxCountUsesPromoCodeResponse, error) {
+	out := new(ChangeMaxCountUsesPromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ChangeMaxCountUsesPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoyaltyServiceServer is the server API for LoyaltyService service.
 // All implementations must embed UnimplementedLoyaltyServiceServer
 // for forward compatibility
 type LoyaltyServiceServer interface {
 	AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error)
+	ChangeNamePromoCode(context.Context, *ChangeNamePromoCodeRequest) (*ChangeNamePromoCodeResponse, error)
+	ChangeTypeDiscountPromoCode(context.Context, *ChangeTypeDiscountPromoCodeRequest) (*ChangeTypeDiscountPromoCodeResponse, error)
+	ChangeValueDiscountPromoCode(context.Context, *ChangeValueDiscountPromoCodeRequest) (*ChangeValueDiscountPromoCodeResponse, error)
+	ChangeDateStartActivePromoCode(context.Context, *ChangeDateStartActivePromoCodeRequest) (*ChangeDateStartActivePromoCodeResponse, error)
+	ChangeDateFinishActivePromoCode(context.Context, *ChangeDateFinishActivePromoCodeRequest) (*ChangeDateFinishActivePromoCodeResponse, error)
+	ChangeMaxCountUsesPromoCode(context.Context, *ChangeMaxCountUsesPromoCodeRequest) (*ChangeMaxCountUsesPromoCodeResponse, error)
 	mustEmbedUnimplementedLoyaltyServiceServer()
 }
 
@@ -70,6 +136,24 @@ func (UnimplementedLoyaltyServiceServer) AddNewPromoCode(context.Context, *AddNe
 }
 func (UnimplementedLoyaltyServiceServer) DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeNamePromoCode(context.Context, *ChangeNamePromoCodeRequest) (*ChangeNamePromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeNamePromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeTypeDiscountPromoCode(context.Context, *ChangeTypeDiscountPromoCodeRequest) (*ChangeTypeDiscountPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeTypeDiscountPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeValueDiscountPromoCode(context.Context, *ChangeValueDiscountPromoCodeRequest) (*ChangeValueDiscountPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeValueDiscountPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeDateStartActivePromoCode(context.Context, *ChangeDateStartActivePromoCodeRequest) (*ChangeDateStartActivePromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeDateStartActivePromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeDateFinishActivePromoCode(context.Context, *ChangeDateFinishActivePromoCodeRequest) (*ChangeDateFinishActivePromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeDateFinishActivePromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) ChangeMaxCountUsesPromoCode(context.Context, *ChangeMaxCountUsesPromoCodeRequest) (*ChangeMaxCountUsesPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeMaxCountUsesPromoCode not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) mustEmbedUnimplementedLoyaltyServiceServer() {}
 
@@ -120,6 +204,114 @@ func _LoyaltyService_DeletePromoCode_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LoyaltyService_ChangeNamePromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeNamePromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeNamePromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeNamePromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeNamePromoCode(ctx, req.(*ChangeNamePromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_ChangeTypeDiscountPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeTypeDiscountPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeTypeDiscountPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeTypeDiscountPromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeTypeDiscountPromoCode(ctx, req.(*ChangeTypeDiscountPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_ChangeValueDiscountPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeValueDiscountPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeValueDiscountPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeValueDiscountPromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeValueDiscountPromoCode(ctx, req.(*ChangeValueDiscountPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_ChangeDateStartActivePromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeDateStartActivePromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeDateStartActivePromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeDateStartActivePromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeDateStartActivePromoCode(ctx, req.(*ChangeDateStartActivePromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_ChangeDateFinishActivePromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeDateFinishActivePromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeDateFinishActivePromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeDateFinishActivePromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeDateFinishActivePromoCode(ctx, req.(*ChangeDateFinishActivePromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_ChangeMaxCountUsesPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeMaxCountUsesPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).ChangeMaxCountUsesPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/ChangeMaxCountUsesPromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).ChangeMaxCountUsesPromoCode(ctx, req.(*ChangeMaxCountUsesPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LoyaltyService_ServiceDesc is the grpc.ServiceDesc for LoyaltyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +326,30 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePromoCode",
 			Handler:    _LoyaltyService_DeletePromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeNamePromoCode",
+			Handler:    _LoyaltyService_ChangeNamePromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeTypeDiscountPromoCode",
+			Handler:    _LoyaltyService_ChangeTypeDiscountPromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeValueDiscountPromoCode",
+			Handler:    _LoyaltyService_ChangeValueDiscountPromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeDateStartActivePromoCode",
+			Handler:    _LoyaltyService_ChangeDateStartActivePromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeDateFinishActivePromoCode",
+			Handler:    _LoyaltyService_ChangeDateFinishActivePromoCode_Handler,
+		},
+		{
+			MethodName: "ChangeMaxCountUsesPromoCode",
+			Handler:    _LoyaltyService_ChangeMaxCountUsesPromoCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
