@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "service.loyalty;sl";
+package service;
+
+
+service LoyaltyService{
+  rpc AddNewPromoCode (AddNewPromoCodeRequest) returns (AddNewPromoCodeResponse);
+
+}
+
+message AddNewPromoCodeRequest{
+  string name = 1;
+  int32 typeDiscount = 2;
+  int32 valueDiscount = 3;
+  string dateStartActive = 4;
+  string dateFinishActive = 5;
+  int32 maxCountUses = 6;
+}
+message AddNewPromoCodeResponse{
+  string result = 1;
+}
