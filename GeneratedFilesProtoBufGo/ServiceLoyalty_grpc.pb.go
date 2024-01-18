@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LoyaltyServiceClient interface {
 	AddNewPromoCode(ctx context.Context, in *AddNewPromoCodeRequest, opts ...grpc.CallOption) (*AddNewPromoCodeResponse, error)
+	DeletePromoCode(ctx context.Context, in *DeletePromoCodeRequest, opts ...grpc.CallOption) (*DeletePromoCodeResponse, error)
 }
 
 type loyaltyServiceClient struct {
@@ -42,11 +43,21 @@ func (c *loyaltyServiceClient) AddNewPromoCode(ctx context.Context, in *AddNewPr
 	return out, nil
 }
 
+func (c *loyaltyServiceClient) DeletePromoCode(ctx context.Context, in *DeletePromoCodeRequest, opts ...grpc.CallOption) (*DeletePromoCodeResponse, error) {
+	out := new(DeletePromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/DeletePromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoyaltyServiceServer is the server API for LoyaltyService service.
 // All implementations must embed UnimplementedLoyaltyServiceServer
 // for forward compatibility
 type LoyaltyServiceServer interface {
 	AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error)
+	DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error)
 	mustEmbedUnimplementedLoyaltyServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedLoyaltyServiceServer struct {
 
 func (UnimplementedLoyaltyServiceServer) AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddNewPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePromoCode not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) mustEmbedUnimplementedLoyaltyServiceServer() {}
 
@@ -88,6 +102,24 @@ func _LoyaltyService_AddNewPromoCode_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LoyaltyService_DeletePromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).DeletePromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/DeletePromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).DeletePromoCode(ctx, req.(*DeletePromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LoyaltyService_ServiceDesc is the grpc.ServiceDesc for LoyaltyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddNewPromoCode",
 			Handler:    _LoyaltyService_AddNewPromoCode_Handler,
+		},
+		{
+			MethodName: "DeletePromoCode",
+			Handler:    _LoyaltyService_DeletePromoCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
