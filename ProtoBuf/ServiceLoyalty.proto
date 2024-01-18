@@ -17,19 +17,19 @@ service LoyaltyService{
 message ChangeNamePromoCodeRequest{ string name = 1;}
 message ChangeNamePromoCodeResponse {string  result = 1;}
 
-message ChangeTypeDiscountPromoCodeRequest{ int32 typeDiscount = 1;}
+message ChangeTypeDiscountPromoCodeRequest{ int32 typeDiscount = 1; string name = 2;}
 message ChangeTypeDiscountPromoCodeResponse {string  result = 1;}
 
-message ChangeValueDiscountPromoCodeRequest{ int32 valueDiscount = 1;}
+message ChangeValueDiscountPromoCodeRequest{ int32 valueDiscount = 1; string name = 2;}
 message ChangeValueDiscountPromoCodeResponse {string  result = 1;}
 
-message ChangeDateStartActivePromoCodeRequest{ string dateStartActive = 1;}
+message ChangeDateStartActivePromoCodeRequest{ string dateStartActive = 1; string name = 2;}
 message ChangeDateStartActivePromoCodeResponse {string  result = 1;}
 
-message ChangeDateFinishActivePromoCodeRequest{ string dateFinishActive = 1;}
+message ChangeDateFinishActivePromoCodeRequest{ string dateFinishActive = 1; string name = 2;}
 message ChangeDateFinishActivePromoCodeResponse {string  result = 1;}
 
-message ChangeMaxCountUsesPromoCodeRequest{ int32 maxCountUses = 1;}
+message ChangeMaxCountUsesPromoCodeRequest{ int32 maxCountUses = 1; string name = 2;}
 message ChangeMaxCountUsesPromoCodeResponse {string  result = 1;}
 
 message DeletePromoCodeRequest{
