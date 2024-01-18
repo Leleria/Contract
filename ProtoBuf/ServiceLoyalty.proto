@@ -14,7 +14,7 @@ service LoyaltyService{
   rpc ChangeDateFinishActivePromoCode (ChangeDateFinishActivePromoCodeRequest) returns (ChangeDateFinishActivePromoCodeResponse);
   rpc ChangeMaxCountUsesPromoCode (ChangeMaxCountUsesPromoCodeRequest) returns (ChangeMaxCountUsesPromoCodeResponse);
 }
-message ChangeNamePromoCodeRequest{ string name = 1;}
+message ChangeNamePromoCodeRequest{ string name = 1; string newName = 2;}
 message ChangeNamePromoCodeResponse {string  result = 1;}
 
 message ChangeTypeDiscountPromoCodeRequest{ int32 typeDiscount = 1; string name = 2;}
