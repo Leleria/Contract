@@ -20,7 +20,7 @@ service LoyaltyService{
 message AddPersonalPromoCodeRequest{
   int32 idClient = 1;
   int32 idGroup = 2;
-  int32 namePromoCode = 3;
+  string namePromoCode = 3;
 }
 message AddPersonalPromoCodeResponse{ string  result = 1;}
 
