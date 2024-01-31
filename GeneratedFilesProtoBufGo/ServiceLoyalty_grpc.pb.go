@@ -33,6 +33,8 @@ type LoyaltyServiceClient interface {
 	GetPromoCode(ctx context.Context, in *GetPromoCodeRequest, opts ...grpc.CallOption) (*GetPromoCodeResponse, error)
 	GetAllPromoCodes(ctx context.Context, in *GetAllPromoCodesRequest, opts ...grpc.CallOption) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(ctx context.Context, in *AddPersonalPromoCodeRequest, opts ...grpc.CallOption) (*AddPersonalPromoCodeResponse, error)
+	AddCondition(ctx context.Context, in *AddConditionRequest, opts ...grpc.CallOption) (*AddConditionResponse, error)
+	SettingUpBudget(ctx context.Context, in *SettingUpBudgetRequest, opts ...grpc.CallOption) (*SettingUpBudgetResponse, error)
 }
 
 type loyaltyServiceClient struct {
@@ -142,6 +144,24 @@ func (c *loyaltyServiceClient) AddPersonalPromoCode(ctx context.Context, in *Add
 	return out, nil
 }
 
+func (c *loyaltyServiceClient) AddCondition(ctx context.Context, in *AddConditionRequest, opts ...grpc.CallOption) (*AddConditionResponse, error) {
+	out := new(AddConditionResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/AddCondition", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) SettingUpBudget(ctx context.Context, in *SettingUpBudgetRequest, opts ...grpc.CallOption) (*SettingUpBudgetResponse, error) {
+	out := new(SettingUpBudgetResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/SettingUpBudget", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoyaltyServiceServer is the server API for LoyaltyService service.
 // All implementations must embed UnimplementedLoyaltyServiceServer
 // for forward compatibility
@@ -157,6 +177,8 @@ type LoyaltyServiceServer interface {
 	GetPromoCode(context.Context, *GetPromoCodeRequest) (*GetPromoCodeResponse, error)
 	GetAllPromoCodes(context.Context, *GetAllPromoCodesRequest) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(context.Context, *AddPersonalPromoCodeRequest) (*AddPersonalPromoCodeResponse, error)
+	AddCondition(context.Context, *AddConditionRequest) (*AddConditionResponse, error)
+	SettingUpBudget(context.Context, *SettingUpBudgetRequest) (*SettingUpBudgetResponse, error)
 	mustEmbedUnimplementedLoyaltyServiceServer()
 }
 
@@ -196,6 +218,12 @@ func (UnimplementedLoyaltyServiceServer) GetAllPromoCodes(context.Context, *GetA
 }
 func (UnimplementedLoyaltyServiceServer) AddPersonalPromoCode(context.Context, *AddPersonalPromoCodeRequest) (*AddPersonalPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPersonalPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) AddCondition(context.Context, *AddConditionRequest) (*AddConditionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCondition not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) SettingUpBudget(context.Context, *SettingUpBudgetRequest) (*SettingUpBudgetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SettingUpBudget not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) mustEmbedUnimplementedLoyaltyServiceServer() {}
 
@@ -408,6 +436,42 @@ func _LoyaltyService_AddPersonalPromoCode_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LoyaltyService_AddCondition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddConditionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).AddCondition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/AddCondition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).AddCondition(ctx, req.(*AddConditionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_SettingUpBudget_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SettingUpBudgetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).SettingUpBudget(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/SettingUpBudget",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).SettingUpBudget(ctx, req.(*SettingUpBudgetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LoyaltyService_ServiceDesc is the grpc.ServiceDesc for LoyaltyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -458,6 +522,14 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddPersonalPromoCode",
 			Handler:    _LoyaltyService_AddPersonalPromoCode_Handler,
+		},
+		{
+			MethodName: "AddCondition",
+			Handler:    _LoyaltyService_AddCondition_Handler,
+		},
+		{
+			MethodName: "SettingUpBudget",
+			Handler:    _LoyaltyService_SettingUpBudget_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
