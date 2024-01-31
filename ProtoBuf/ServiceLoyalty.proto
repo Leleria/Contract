@@ -15,8 +15,14 @@ service LoyaltyService{
   rpc ChangeMaxCountUsesPromoCode (ChangeMaxCountUsesPromoCodeRequest) returns (ChangeMaxCountUsesPromoCodeResponse);
   rpc GetPromoCode (GetPromoCodeRequest) returns (GetPromoCodeResponse);
   rpc GetAllPromoCodes(GetAllPromoCodesRequest) returns (GetAllPromoCodesResponse);
+  rpc AddPersonalPromoCode(AddPersonalPromoCodeRequest) returns (AddPersonalPromoCodeResponse);
 }
-
+message AddPersonalPromoCodeRequest{
+  int32 idClient = 1;
+  int32 idGroup = 2;
+  int32 namePromoCode = 3;
+}
+message AddPersonalPromoCodeResponse{ string  result = 1;}
 
 
 message GetPromoCodeRequest{string  name = 1;}
