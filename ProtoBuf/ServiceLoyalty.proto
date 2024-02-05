@@ -23,7 +23,10 @@ service LoyaltyService{
   rpc ChangeConditionCashBack(ChangeConditionCashBackRequest) returns(ChangeConditionCashBackResponse);
   rpc GetCashBack (GetCashBackRequest) returns (GetCashBackResponse);
   rpc GetAllCashBack (GetAllCashBackRequest) returns (GetAllCashBackResponse);
+  rpc DeleteCashBack (DeleteCashBackRequest) returns (DeleteCashBackResponse);
 }
+message DeleteCashBackRequest{int32 idCashBack = 1;}
+message DeleteCashBackResponse{string result = 1;}
 
 message ChangeBudgetCashBackRequest {int32 idCashBack = 1; int32 budget = 2;}
 message ChangeBudgetCashBackResponse{string result = 1;}

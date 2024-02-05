@@ -39,6 +39,7 @@ type LoyaltyServiceClient interface {
 	ChangeConditionCashBack(ctx context.Context, in *ChangeConditionCashBackRequest, opts ...grpc.CallOption) (*ChangeConditionCashBackResponse, error)
 	GetCashBack(ctx context.Context, in *GetCashBackRequest, opts ...grpc.CallOption) (*GetCashBackResponse, error)
 	GetAllCashBack(ctx context.Context, in *GetAllCashBackRequest, opts ...grpc.CallOption) (*GetAllCashBackResponse, error)
+	DeleteCashBack(ctx context.Context, in *DeleteCashBackRequest, opts ...grpc.CallOption) (*DeleteCashBackResponse, error)
 }
 
 type loyaltyServiceClient struct {
@@ -202,6 +203,15 @@ func (c *loyaltyServiceClient) GetAllCashBack(ctx context.Context, in *GetAllCas
 	return out, nil
 }
 
+func (c *loyaltyServiceClient) DeleteCashBack(ctx context.Context, in *DeleteCashBackRequest, opts ...grpc.CallOption) (*DeleteCashBackResponse, error) {
+	out := new(DeleteCashBackResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/DeleteCashBack", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoyaltyServiceServer is the server API for LoyaltyService service.
 // All implementations must embed UnimplementedLoyaltyServiceServer
 // for forward compatibility
@@ -223,6 +233,7 @@ type LoyaltyServiceServer interface {
 	ChangeConditionCashBack(context.Context, *ChangeConditionCashBackRequest) (*ChangeConditionCashBackResponse, error)
 	GetCashBack(context.Context, *GetCashBackRequest) (*GetCashBackResponse, error)
 	GetAllCashBack(context.Context, *GetAllCashBackRequest) (*GetAllCashBackResponse, error)
+	DeleteCashBack(context.Context, *DeleteCashBackRequest) (*DeleteCashBackResponse, error)
 	mustEmbedUnimplementedLoyaltyServiceServer()
 }
 
@@ -280,6 +291,9 @@ func (UnimplementedLoyaltyServiceServer) GetCashBack(context.Context, *GetCashBa
 }
 func (UnimplementedLoyaltyServiceServer) GetAllCashBack(context.Context, *GetAllCashBackRequest) (*GetAllCashBackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllCashBack not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) DeleteCashBack(context.Context, *DeleteCashBackRequest) (*DeleteCashBackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCashBack not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) mustEmbedUnimplementedLoyaltyServiceServer() {}
 
@@ -600,6 +614,24 @@ func _LoyaltyService_GetAllCashBack_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _LoyaltyService_DeleteCashBack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCashBackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).DeleteCashBack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/DeleteCashBack",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).DeleteCashBack(ctx, req.(*DeleteCashBackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // LoyaltyService_ServiceDesc is the grpc.ServiceDesc for LoyaltyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -674,6 +706,10 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllCashBack",
 			Handler:    _LoyaltyService_GetAllCashBack_Handler,
+		},
+		{
+			MethodName: "DeleteCashBack",
+			Handler:    _LoyaltyService_DeleteCashBack_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
