@@ -18,11 +18,14 @@ service LoyaltyService{
   rpc AddPersonalPromoCode(AddPersonalPromoCodeRequest) returns (AddPersonalPromoCodeResponse);
 
   rpc SettingUpBudget(SettingUpBudgetRequest) returns (SettingUpBudgetResponse);
-  rpc ProvideBonus(ProvideBonusRequest) returns (ProvideBonusResponse);
+  rpc GetCashBack (GetCashBackRequest) returns (GetCashBackResponse);
+  rpc GetAllCashBack (GetAllCashBackRequest) returns (GetAllCashBackResponse);
 }
-message ProvideBonusRequest{ int32 idClient = 1; int32 idLevel = 2;}
+message GetCashBackRequest{int32 idCashBack = 1;}
+message GetCashBackResponse{string result = 1;}
 
-message ProvideBonusResponse{string  result = 1;}
+message GetAllCashBackRequest{}
+message GetAllCashBackResponse{string result = 1;}
 
 message SettingUpBudgetRequest{int32 typeCashBack = 1; string condition = 2; int32 valueBudget = 3;}
 

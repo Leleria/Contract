@@ -34,7 +34,8 @@ type LoyaltyServiceClient interface {
 	GetAllPromoCodes(ctx context.Context, in *GetAllPromoCodesRequest, opts ...grpc.CallOption) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(ctx context.Context, in *AddPersonalPromoCodeRequest, opts ...grpc.CallOption) (*AddPersonalPromoCodeResponse, error)
 	SettingUpBudget(ctx context.Context, in *SettingUpBudgetRequest, opts ...grpc.CallOption) (*SettingUpBudgetResponse, error)
-	ProvideBonus(ctx context.Context, in *ProvideBonusRequest, opts ...grpc.CallOption) (*ProvideBonusResponse, error)
+	GetCashBack(ctx context.Context, in *GetCashBackRequest, opts ...grpc.CallOption) (*GetCashBackResponse, error)
+	GetAllCashBack(ctx context.Context, in *GetAllCashBackRequest, opts ...grpc.CallOption) (*GetAllCashBackResponse, error)
 }
 
 type loyaltyServiceClient struct {
@@ -153,9 +154,18 @@ func (c *loyaltyServiceClient) SettingUpBudget(ctx context.Context, in *SettingU
 	return out, nil
 }
 
-func (c *loyaltyServiceClient) ProvideBonus(ctx context.Context, in *ProvideBonusRequest, opts ...grpc.CallOption) (*ProvideBonusResponse, error) {
-	out := new(ProvideBonusResponse)
-	err := c.cc.Invoke(ctx, "/service.LoyaltyService/ProvideBonus", in, out, opts...)
+func (c *loyaltyServiceClient) GetCashBack(ctx context.Context, in *GetCashBackRequest, opts ...grpc.CallOption) (*GetCashBackResponse, error) {
+	out := new(GetCashBackResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/GetCashBack", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) GetAllCashBack(ctx context.Context, in *GetAllCashBackRequest, opts ...grpc.CallOption) (*GetAllCashBackResponse, error) {
+	out := new(GetAllCashBackResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/GetAllCashBack", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -178,7 +188,8 @@ type LoyaltyServiceServer interface {
 	GetAllPromoCodes(context.Context, *GetAllPromoCodesRequest) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(context.Context, *AddPersonalPromoCodeRequest) (*AddPersonalPromoCodeResponse, error)
 	SettingUpBudget(context.Context, *SettingUpBudgetRequest) (*SettingUpBudgetResponse, error)
-	ProvideBonus(context.Context, *ProvideBonusRequest) (*ProvideBonusResponse, error)
+	GetCashBack(context.Context, *GetCashBackRequest) (*GetCashBackResponse, error)
+	GetAllCashBack(context.Context, *GetAllCashBackRequest) (*GetAllCashBackResponse, error)
 	mustEmbedUnimplementedLoyaltyServiceServer()
 }
 
@@ -222,8 +233,11 @@ func (UnimplementedLoyaltyServiceServer) AddPersonalPromoCode(context.Context, *
 func (UnimplementedLoyaltyServiceServer) SettingUpBudget(context.Context, *SettingUpBudgetRequest) (*SettingUpBudgetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SettingUpBudget not implemented")
 }
-func (UnimplementedLoyaltyServiceServer) ProvideBonus(context.Context, *ProvideBonusRequest) (*ProvideBonusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ProvideBonus not implemented")
+func (UnimplementedLoyaltyServiceServer) GetCashBack(context.Context, *GetCashBackRequest) (*GetCashBackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCashBack not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) GetAllCashBack(context.Context, *GetAllCashBackRequest) (*GetAllCashBackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllCashBack not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) mustEmbedUnimplementedLoyaltyServiceServer() {}
 
@@ -454,20 +468,38 @@ func _LoyaltyService_SettingUpBudget_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LoyaltyService_ProvideBonus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ProvideBonusRequest)
+func _LoyaltyService_GetCashBack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCashBackRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LoyaltyServiceServer).ProvideBonus(ctx, in)
+		return srv.(LoyaltyServiceServer).GetCashBack(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/service.LoyaltyService/ProvideBonus",
+		FullMethod: "/service.LoyaltyService/GetCashBack",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LoyaltyServiceServer).ProvideBonus(ctx, req.(*ProvideBonusRequest))
+		return srv.(LoyaltyServiceServer).GetCashBack(ctx, req.(*GetCashBackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_GetAllCashBack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllCashBackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).GetAllCashBack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/GetAllCashBack",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).GetAllCashBack(ctx, req.(*GetAllCashBackRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -528,8 +560,12 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _LoyaltyService_SettingUpBudget_Handler,
 		},
 		{
-			MethodName: "ProvideBonus",
-			Handler:    _LoyaltyService_ProvideBonus_Handler,
+			MethodName: "GetCashBack",
+			Handler:    _LoyaltyService_GetCashBack_Handler,
+		},
+		{
+			MethodName: "GetAllCashBack",
+			Handler:    _LoyaltyService_GetAllCashBack_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
