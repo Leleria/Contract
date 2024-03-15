@@ -22,6 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LoyaltyServiceClient interface {
+	CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error)
+	// promo code
 	AddNewPromoCode(ctx context.Context, in *AddNewPromoCodeRequest, opts ...grpc.CallOption) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(ctx context.Context, in *DeletePromoCodeRequest, opts ...grpc.CallOption) (*DeletePromoCodeResponse, error)
 	ChangeNamePromoCode(ctx context.Context, in *ChangeNamePromoCodeRequest, opts ...grpc.CallOption) (*ChangeNamePromoCodeResponse, error)
@@ -33,6 +35,7 @@ type LoyaltyServiceClient interface {
 	GetPromoCode(ctx context.Context, in *GetPromoCodeRequest, opts ...grpc.CallOption) (*GetPromoCodeResponse, error)
 	GetAllPromoCodes(ctx context.Context, in *GetAllPromoCodesRequest, opts ...grpc.CallOption) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(ctx context.Context, in *AddPersonalPromoCodeRequest, opts ...grpc.CallOption) (*AddPersonalPromoCodeResponse, error)
+	// cashback
 	SettingUpBudget(ctx context.Context, in *SettingUpBudgetRequest, opts ...grpc.CallOption) (*SettingUpBudgetResponse, error)
 	ChangeBudgetCashBack(ctx context.Context, in *ChangeBudgetCashBackRequest, opts ...grpc.CallOption) (*ChangeBudgetCashBackResponse, error)
 	ChangeTypeCashBack(ctx context.Context, in *ChangeTypeCashBackRequest, opts ...grpc.CallOption) (*ChangeTypeCashBackResponse, error)
@@ -48,6 +51,15 @@ type loyaltyServiceClient struct {
 
 func NewLoyaltyServiceClient(cc grpc.ClientConnInterface) LoyaltyServiceClient {
 	return &loyaltyServiceClient{cc}
+}
+
+func (c *loyaltyServiceClient) CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error) {
+	out := new(CalculatePriceWithPromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/CalculatePriceWithPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *loyaltyServiceClient) AddNewPromoCode(ctx context.Context, in *AddNewPromoCodeRequest, opts ...grpc.CallOption) (*AddNewPromoCodeResponse, error) {
@@ -216,6 +228,8 @@ func (c *loyaltyServiceClient) DeleteCashBack(ctx context.Context, in *DeleteCas
 // All implementations must embed UnimplementedLoyaltyServiceServer
 // for forward compatibility
 type LoyaltyServiceServer interface {
+	CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error)
+	// promo code
 	AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error)
 	ChangeNamePromoCode(context.Context, *ChangeNamePromoCodeRequest) (*ChangeNamePromoCodeResponse, error)
@@ -227,6 +241,7 @@ type LoyaltyServiceServer interface {
 	GetPromoCode(context.Context, *GetPromoCodeRequest) (*GetPromoCodeResponse, error)
 	GetAllPromoCodes(context.Context, *GetAllPromoCodesRequest) (*GetAllPromoCodesResponse, error)
 	AddPersonalPromoCode(context.Context, *AddPersonalPromoCodeRequest) (*AddPersonalPromoCodeResponse, error)
+	// cashback
 	SettingUpBudget(context.Context, *SettingUpBudgetRequest) (*SettingUpBudgetResponse, error)
 	ChangeBudgetCashBack(context.Context, *ChangeBudgetCashBackRequest) (*ChangeBudgetCashBackResponse, error)
 	ChangeTypeCashBack(context.Context, *ChangeTypeCashBackRequest) (*ChangeTypeCashBackResponse, error)
@@ -241,6 +256,9 @@ type LoyaltyServiceServer interface {
 type UnimplementedLoyaltyServiceServer struct {
 }
 
+func (UnimplementedLoyaltyServiceServer) CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculatePriceWithPromoCode not implemented")
+}
 func (UnimplementedLoyaltyServiceServer) AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddNewPromoCode not implemented")
 }
@@ -306,6 +324,24 @@ type UnsafeLoyaltyServiceServer interface {
 
 func RegisterLoyaltyServiceServer(s grpc.ServiceRegistrar, srv LoyaltyServiceServer) {
 	s.RegisterService(&LoyaltyService_ServiceDesc, srv)
+}
+
+func _LoyaltyService_CalculatePriceWithPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculatePriceWithPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).CalculatePriceWithPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/CalculatePriceWithPromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).CalculatePriceWithPromoCode(ctx, req.(*CalculatePriceWithPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _LoyaltyService_AddNewPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -639,6 +675,10 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "service.LoyaltyService",
 	HandlerType: (*LoyaltyServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CalculatePriceWithPromoCode",
+			Handler:    _LoyaltyService_CalculatePriceWithPromoCode_Handler,
+		},
 		{
 			MethodName: "AddNewPromoCode",
 			Handler:    _LoyaltyService_AddNewPromoCode_Handler,

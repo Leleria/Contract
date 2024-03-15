@@ -5,6 +5,9 @@ package service;
 
 
 service LoyaltyService{
+  rpc CalculatePriceWithPromoCode(CalculatePriceWithPromoCodeRequest) returns(CalculatePriceWithPromoCodeResponse);
+
+  //promo code
   rpc AddNewPromoCode (AddNewPromoCodeRequest) returns (AddNewPromoCodeResponse);
   rpc DeletePromoCode (DeletePromoCodeRequest) returns (DeletePromoCodeResponse);
   rpc ChangeNamePromoCode (ChangeNamePromoCodeRequest) returns (ChangeNamePromoCodeResponse);
@@ -17,6 +20,7 @@ service LoyaltyService{
   rpc GetAllPromoCodes(GetAllPromoCodesRequest) returns (GetAllPromoCodesResponse);
   rpc AddPersonalPromoCode(AddPersonalPromoCodeRequest) returns (AddPersonalPromoCodeResponse);
 
+  //cashback
   rpc SettingUpBudget(SettingUpBudgetRequest) returns (SettingUpBudgetResponse);
   rpc ChangeBudgetCashBack(ChangeBudgetCashBackRequest) returns(ChangeBudgetCashBackResponse);
   rpc ChangeTypeCashBack(ChangeTypeCashBackRequest) returns(ChangeTypeCashBackResponse);
@@ -25,6 +29,9 @@ service LoyaltyService{
   rpc GetAllCashBack (GetAllCashBackRequest) returns (GetAllCashBackResponse);
   rpc DeleteCashBack (DeleteCashBackRequest) returns (DeleteCashBackResponse);
 }
+message  CalculatePriceWithPromoCodeRequest{int32 idClient = 1; string promoCode = 2; float amountProduct = 3;}
+message CalculatePriceWithPromoCodeResponse{string result = 1; float finalAmountProduct = 2; float amountDiscount = 3;}
+
 message DeleteCashBackRequest{int32 idCashBack = 1;}
 message DeleteCashBackResponse{string result = 1;}
 
