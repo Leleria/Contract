@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LoyaltyServiceClient interface {
 	CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error)
+	WaitForPaymentConfirmation(ctx context.Context, in *WaitForPaymentConfirmationRequest, opts ...grpc.CallOption) (*WaitForPaymentConfirmationResponse, error)
 	// promo code
 	AddNewPromoCode(ctx context.Context, in *AddNewPromoCodeRequest, opts ...grpc.CallOption) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(ctx context.Context, in *DeletePromoCodeRequest, opts ...grpc.CallOption) (*DeletePromoCodeResponse, error)
@@ -56,6 +57,15 @@ func NewLoyaltyServiceClient(cc grpc.ClientConnInterface) LoyaltyServiceClient {
 func (c *loyaltyServiceClient) CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error) {
 	out := new(CalculatePriceWithPromoCodeResponse)
 	err := c.cc.Invoke(ctx, "/service.LoyaltyService/CalculatePriceWithPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) WaitForPaymentConfirmation(ctx context.Context, in *WaitForPaymentConfirmationRequest, opts ...grpc.CallOption) (*WaitForPaymentConfirmationResponse, error) {
+	out := new(WaitForPaymentConfirmationResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/WaitForPaymentConfirmation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -229,6 +239,7 @@ func (c *loyaltyServiceClient) DeleteCashBack(ctx context.Context, in *DeleteCas
 // for forward compatibility
 type LoyaltyServiceServer interface {
 	CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error)
+	WaitForPaymentConfirmation(context.Context, *WaitForPaymentConfirmationRequest) (*WaitForPaymentConfirmationResponse, error)
 	// promo code
 	AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error)
 	DeletePromoCode(context.Context, *DeletePromoCodeRequest) (*DeletePromoCodeResponse, error)
@@ -258,6 +269,9 @@ type UnimplementedLoyaltyServiceServer struct {
 
 func (UnimplementedLoyaltyServiceServer) CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculatePriceWithPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) WaitForPaymentConfirmation(context.Context, *WaitForPaymentConfirmationRequest) (*WaitForPaymentConfirmationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WaitForPaymentConfirmation not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) AddNewPromoCode(context.Context, *AddNewPromoCodeRequest) (*AddNewPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddNewPromoCode not implemented")
@@ -340,6 +354,24 @@ func _LoyaltyService_CalculatePriceWithPromoCode_Handler(srv interface{}, ctx co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LoyaltyServiceServer).CalculatePriceWithPromoCode(ctx, req.(*CalculatePriceWithPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_WaitForPaymentConfirmation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WaitForPaymentConfirmationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).WaitForPaymentConfirmation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/WaitForPaymentConfirmation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).WaitForPaymentConfirmation(ctx, req.(*WaitForPaymentConfirmationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -678,6 +710,10 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculatePriceWithPromoCode",
 			Handler:    _LoyaltyService_CalculatePriceWithPromoCode_Handler,
+		},
+		{
+			MethodName: "WaitForPaymentConfirmation",
+			Handler:    _LoyaltyService_WaitForPaymentConfirmation_Handler,
 		},
 		{
 			MethodName: "AddNewPromoCode",
