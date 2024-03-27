@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LoyaltyServiceClient interface {
 	CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error)
+	CalculatePriceWithPersonalPromoCode(ctx context.Context, in *CalculatePriceWithPersonalPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPersonalPromoCodeResponse, error)
 	CalculatePriceWithBonuses(ctx context.Context, in *CalculatePriceWithBonusesRequest, opts ...grpc.CallOption) (*CalculatePriceWithBonusesResponse, error)
 	DebitingPromoBonuses(ctx context.Context, in *DebitingPromoBonusesRequest, opts ...grpc.CallOption) (*DebitingPromoBonusesResponse, error)
 	// promo code
@@ -58,6 +59,15 @@ func NewLoyaltyServiceClient(cc grpc.ClientConnInterface) LoyaltyServiceClient {
 func (c *loyaltyServiceClient) CalculatePriceWithPromoCode(ctx context.Context, in *CalculatePriceWithPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPromoCodeResponse, error) {
 	out := new(CalculatePriceWithPromoCodeResponse)
 	err := c.cc.Invoke(ctx, "/service.LoyaltyService/CalculatePriceWithPromoCode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *loyaltyServiceClient) CalculatePriceWithPersonalPromoCode(ctx context.Context, in *CalculatePriceWithPersonalPromoCodeRequest, opts ...grpc.CallOption) (*CalculatePriceWithPersonalPromoCodeResponse, error) {
+	out := new(CalculatePriceWithPersonalPromoCodeResponse)
+	err := c.cc.Invoke(ctx, "/service.LoyaltyService/CalculatePriceWithPersonalPromoCode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -249,6 +259,7 @@ func (c *loyaltyServiceClient) DeleteCashBack(ctx context.Context, in *DeleteCas
 // for forward compatibility
 type LoyaltyServiceServer interface {
 	CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error)
+	CalculatePriceWithPersonalPromoCode(context.Context, *CalculatePriceWithPersonalPromoCodeRequest) (*CalculatePriceWithPersonalPromoCodeResponse, error)
 	CalculatePriceWithBonuses(context.Context, *CalculatePriceWithBonusesRequest) (*CalculatePriceWithBonusesResponse, error)
 	DebitingPromoBonuses(context.Context, *DebitingPromoBonusesRequest) (*DebitingPromoBonusesResponse, error)
 	// promo code
@@ -280,6 +291,9 @@ type UnimplementedLoyaltyServiceServer struct {
 
 func (UnimplementedLoyaltyServiceServer) CalculatePriceWithPromoCode(context.Context, *CalculatePriceWithPromoCodeRequest) (*CalculatePriceWithPromoCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculatePriceWithPromoCode not implemented")
+}
+func (UnimplementedLoyaltyServiceServer) CalculatePriceWithPersonalPromoCode(context.Context, *CalculatePriceWithPersonalPromoCodeRequest) (*CalculatePriceWithPersonalPromoCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculatePriceWithPersonalPromoCode not implemented")
 }
 func (UnimplementedLoyaltyServiceServer) CalculatePriceWithBonuses(context.Context, *CalculatePriceWithBonusesRequest) (*CalculatePriceWithBonusesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculatePriceWithBonuses not implemented")
@@ -368,6 +382,24 @@ func _LoyaltyService_CalculatePriceWithPromoCode_Handler(srv interface{}, ctx co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(LoyaltyServiceServer).CalculatePriceWithPromoCode(ctx, req.(*CalculatePriceWithPromoCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _LoyaltyService_CalculatePriceWithPersonalPromoCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculatePriceWithPersonalPromoCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoyaltyServiceServer).CalculatePriceWithPersonalPromoCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.LoyaltyService/CalculatePriceWithPersonalPromoCode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoyaltyServiceServer).CalculatePriceWithPersonalPromoCode(ctx, req.(*CalculatePriceWithPersonalPromoCodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -742,6 +774,10 @@ var LoyaltyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculatePriceWithPromoCode",
 			Handler:    _LoyaltyService_CalculatePriceWithPromoCode_Handler,
+		},
+		{
+			MethodName: "CalculatePriceWithPersonalPromoCode",
+			Handler:    _LoyaltyService_CalculatePriceWithPersonalPromoCode_Handler,
 		},
 		{
 			MethodName: "CalculatePriceWithBonuses",

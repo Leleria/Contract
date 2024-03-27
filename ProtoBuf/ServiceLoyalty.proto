@@ -6,6 +6,7 @@ package service;
 
 service LoyaltyService{
   rpc CalculatePriceWithPromoCode(CalculatePriceWithPromoCodeRequest) returns(CalculatePriceWithPromoCodeResponse);
+  rpc CalculatePriceWithPersonalPromoCode(CalculatePriceWithPersonalPromoCodeRequest) returns(CalculatePriceWithPersonalPromoCodeResponse);
   rpc CalculatePriceWithBonuses(CalculatePriceWithBonusesRequest) returns(CalculatePriceWithBonusesResponse);
   rpc DebitingPromoBonuses (DebitingPromoBonusesRequest) returns(DebitingPromoBonusesResponse);
 
@@ -33,6 +34,9 @@ service LoyaltyService{
 }
 message  CalculatePriceWithPromoCodeRequest{int32 idClient = 1; string promoCode = 2; float amountProduct = 3;}
 message CalculatePriceWithPromoCodeResponse{string result = 1; float finalAmountProduct = 2; float amountDiscount = 3;}
+
+message CalculatePriceWithPersonalPromoCodeRequest{int32 idClient = 1; int32 idPromoCode = 2; float amountProduct = 3;}
+message CalculatePriceWithPersonalPromoCodeResponse{string result = 1; float finalAmountProduct = 2; float amountDiscount = 3;}
 
 message  CalculatePriceWithBonusesRequest{int32 idClient = 1; float amountProduct = 2;}
 message CalculatePriceWithBonusesResponse{string result = 1; float finalAmountProduct = 2; float numberBonusesDebited = 3;}
